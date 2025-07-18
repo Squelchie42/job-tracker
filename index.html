@@ -77,6 +77,9 @@
     </select>
     <textarea id="notes" placeholder="Notes" rows="3"></textarea>
     <textarea id="why" placeholder="Why I applied, liked the company, or benefits that stood out..." rows="3"></textarea>
+    <textarea id="nextSteps" placeholder="Next steps (e.g. follow-up on Monday, schedule interview)" rows="2"></textarea>
+    <textarea id="prepQuestions" placeholder="Questions I might be asked or want to prepare for" rows="2"></textarea>
+    <textarea id="myAnswers" placeholder="What I plan to say (talking points, key experience)" rows="2"></textarea>
     <button type="submit">Add Job</button>
   </form>
 
@@ -90,6 +93,9 @@
         <th>Status</th>
         <th>Notes</th>
         <th>Why I Applied</th>
+        <th>Next Steps</th>
+        <th>Prep Questions</th>
+        <th>My Answers</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -121,6 +127,9 @@
           <td>${job.status}</td>
           <td>${job.notes}</td>
           <td>${job.why || ''}</td>
+          <td>${job.nextSteps || ''}</td>
+          <td>${job.prepQuestions || ''}</td>
+          <td>${job.myAnswers || ''}</td>
           <td><button onclick="deleteJob(${index})">Delete</button></td>
         `;
         jobList.appendChild(row);
@@ -143,7 +152,10 @@
         date: document.getElementById('date').value,
         status: document.getElementById('status').value,
         notes: document.getElementById('notes').value,
-        why: document.getElementById('why').value
+        why: document.getElementById('why').value,
+        nextSteps: document.getElementById('nextSteps').value,
+        prepQuestions: document.getElementById('prepQuestions').value,
+        myAnswers: document.getElementById('myAnswers').value
       };
       const jobs = getJobs();
       jobs.push(job);
