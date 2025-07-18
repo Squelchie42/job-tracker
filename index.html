@@ -16,7 +16,7 @@
     form {
       margin-bottom: 1rem;
     }
-    input, select, button {
+    input, select, button, textarea {
       padding: 0.5rem;
       margin: 0.3rem 0;
       display: block;
@@ -35,10 +35,35 @@
     th {
       background-color: #eee;
     }
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+      }
+      tr {
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+      }
+      td {
+        text-align: left;
+        padding-left: 50%;
+        position: relative;
+      }
+      td::before {
+        position: absolute;
+        left: 0;
+        width: 45%;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+    }
   </style>
 </head>
 <body>
   <h1>Job Tracker App</h1>
+  <button onclick="generateCoverLetter()">Generate Cover Letter with AI</button>
+
   <form id="jobForm">
     <input type="text" id="title" placeholder="Job Title" required />
     <input type="text" id="company" placeholder="Company" required />
@@ -51,6 +76,7 @@
       <option value="Rejected">Rejected</option>
     </select>
     <textarea id="notes" placeholder="Notes" rows="3"></textarea>
+    <textarea id="why" placeholder="Why I applied, liked the company, or benefits that stood out..." rows="3"></textarea>
     <button type="submit">Add Job</button>
   </form>
 
@@ -63,6 +89,7 @@
         <th>Date</th>
         <th>Status</th>
         <th>Notes</th>
+        <th>Why I Applied</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -93,6 +120,7 @@
           <td>${job.date}</td>
           <td>${job.status}</td>
           <td>${job.notes}</td>
+          <td>${job.why || ''}</td>
           <td><button onclick="deleteJob(${index})">Delete</button></td>
         `;
         jobList.appendChild(row);
@@ -114,7 +142,8 @@
         link: document.getElementById('link').value,
         date: document.getElementById('date').value,
         status: document.getElementById('status').value,
-        notes: document.getElementById('notes').value
+        notes: document.getElementById('notes').value,
+        why: document.getElementById('why').value
       };
       const jobs = getJobs();
       jobs.push(job);
@@ -122,6 +151,17 @@
       renderJobs();
       jobForm.reset();
     });
+
+    function generateCoverLetter() {
+      const title = document.getElementById('title').value;
+      const company = document.getElementById('company').value;
+      const why = document.getElementById('why').value;
+      const notes = document.getElementById('notes').value;
+
+      const prompt = `Write a friendly, clear cover letter for the role '${title}' at '${company}'. Mention why I applied: '${why}'. Also include these notes: '${notes}'.`;
+
+      alert("Paste this into ChatGPT to generate a cover letter:\n\n" + prompt);
+    }
 
     renderJobs();
   </script>
