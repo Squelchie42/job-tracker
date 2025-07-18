@@ -80,6 +80,8 @@
     <textarea id="nextSteps" placeholder="Next steps (e.g. follow-up on Monday, schedule interview)" rows="2"></textarea>
     <textarea id="prepQuestions" placeholder="Questions I might be asked or want to prepare for" rows="2"></textarea>
     <textarea id="myAnswers" placeholder="What I plan to say (talking points, key experience)" rows="2"></textarea>
+    <input type="file" id="resume" accept=".pdf,.doc,.docx" />
+    <input type="file" id="coverLetter" accept=".pdf,.doc,.docx" />
     <button type="submit">Add Job</button>
   </form>
 
@@ -96,6 +98,8 @@
         <th>Next Steps</th>
         <th>Prep Questions</th>
         <th>My Answers</th>
+        <th>Resume</th>
+        <th>Cover Letter</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -130,6 +134,8 @@
           <td>${job.nextSteps || ''}</td>
           <td>${job.prepQuestions || ''}</td>
           <td>${job.myAnswers || ''}</td>
+          <td>${job.resumeName || ''}</td>
+          <td>${job.coverLetterName || ''}</td>
           <td><button onclick="deleteJob(${index})">Delete</button></td>
         `;
         jobList.appendChild(row);
@@ -145,6 +151,9 @@
 
     jobForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const resumeFile = document.getElementById('resume').files[0];
+      const coverLetterFile = document.getElementById('coverLetter').files[0];
+
       const job = {
         title: document.getElementById('title').value,
         company: document.getElementById('company').value,
@@ -155,8 +164,11 @@
         why: document.getElementById('why').value,
         nextSteps: document.getElementById('nextSteps').value,
         prepQuestions: document.getElementById('prepQuestions').value,
-        myAnswers: document.getElementById('myAnswers').value
+        myAnswers: document.getElementById('myAnswers').value,
+        resumeName: resumeFile ? resumeFile.name : '',
+        coverLetterName: coverLetterFile ? coverLetterFile.name : ''
       };
+
       const jobs = getJobs();
       jobs.push(job);
       saveJobs(jobs);
